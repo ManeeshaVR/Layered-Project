@@ -55,8 +55,8 @@ public class PlaceOrderFormController {
     public Label lblDate;
     public Label lblTotal;
     private String orderId;
-    ItemDAO itemImp = new ItemDAOImpl();
-    CustomerDAO customerImp = new CustomerDAOImpl();
+    CrudDAO itemImp = new ItemDAOImpl();
+    CrudDAO customerImp = new CustomerDAOImpl();
     OrderDAO orderImpl = new OrderDAOImpl();
 
 
@@ -110,7 +110,7 @@ public class PlaceOrderFormController {
 //                            "There is no such customer associated with the id " + id
                             new Alert(Alert.AlertType.ERROR, "There is no such customer associated with the id " + newValue + "").show();
                         }
-                        CustomerDTO customerDTO = customerImp.select(newValue);
+                        CustomerDTO customerDTO = (CustomerDTO) customerImp.search(newValue);
 
                         txtCustomerName.setText(customerDTO.getName());
                     } catch (SQLException e) {
@@ -139,7 +139,7 @@ public class PlaceOrderFormController {
                     if (!existItem(newItemCode + "")) {
 //                        throw new NotFoundException("There is no such item associated with the id " + code);
                     }
-                    ItemDTO item = itemImp.search(newItemCode);
+                    ItemDTO item = (ItemDTO) itemImp.search(newItemCode);
 
                     txtDescription.setText(item.getDescription());
                     txtUnitPrice.setText(item.getUnitPrice().setScale(2).toString());
@@ -188,7 +188,7 @@ public class PlaceOrderFormController {
     }
 
     boolean existCustomer(String id) throws SQLException, ClassNotFoundException {
-        return customerImp.search(id);
+        return customerImp.exist(id);
     }
 
     public String generateNewOrderId() {
@@ -217,7 +217,7 @@ public class PlaceOrderFormController {
     private void loadAllItemCodes() {
         try {
             /*Get all items*/
-            ObservableList<String> codes = itemImp.getCodes();
+            ObservableList<String> codes = itemImp.getIds();
             cmbItemCode.setItems(codes);
         } catch (SQLException e) {
             new Alert(Alert.AlertType.ERROR, e.getMessage()).show();
@@ -320,7 +320,7 @@ public class PlaceOrderFormController {
 
     public ItemDTO findItem(String code) {
         try {
-            return itemImp.search(code);
+            return (ItemDTO) itemImp.search(code);
         } catch (SQLException e) {
             throw new RuntimeException("Failed to find the Item " + code, e);
         } catch (ClassNotFoundException e) {

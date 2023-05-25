@@ -9,14 +9,12 @@ import java.time.LocalDate;
 import java.util.List;
 
 public class OrderDAOImpl implements OrderDAO{
-    ItemDAO itemDAO = new ItemDAOImpl();
+    CrudDAO<ItemDTO> itemDAO = new ItemDAOImpl();
     OrderDetailDAO orderDAO = new OrderDetailDAOImpl();
 
     public String generate() throws SQLException, ClassNotFoundException {
-        Connection connection = DBConnection.getDbConnection().getConnection();
-        Statement stm = connection.createStatement();
-        ResultSet rst = stm.executeQuery("SELECT oid FROM `Orders` ORDER BY oid DESC LIMIT 1;");
-
+        String sql = "SELECT oid FROM `Orders` ORDER BY oid DESC LIMIT 1";
+        ResultSet rst = SQLUtil.execute(sql);
         return rst.next() ? String.format("OID-%03d", (Integer.parseInt(rst.getString("oid").replace("OID-", "")) + 1)) : "OID-001";
     }
 
@@ -77,13 +75,7 @@ public class OrderDAOImpl implements OrderDAO{
     }
 
     public boolean save(String orderId, LocalDate date, String customerId) throws SQLException, ClassNotFoundException {
-        Connection connection = DBConnection.getDbConnection().getConnection();
-        PreparedStatement stm = connection.prepareStatement("INSERT INTO `Orders` (oid, date, customerID) VALUES (?,?,?)");
-        stm.setString(1, orderId);
-        stm.setDate(2, Date.valueOf(date));
-        stm.setString(3, customerId);
-        if (stm.executeUpdate() > 0) {
-            return true;
-        }return false;
+        String sql = "INSERT INTO `Orders` (oid, date, customerID) VALUES (?,?,?)";
+        return SQLUtil.execute(sql, orderId, Date.valueOf(date), customerId);
     }
 }

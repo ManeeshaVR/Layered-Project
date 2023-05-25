@@ -11,10 +11,11 @@ import java.util.ArrayList;
 public interface CustomerDAO {
     public boolean save(CustomerDTO customer) throws SQLException, ClassNotFoundException;
 
-    public boolean search(String id) throws SQLException, ClassNotFoundException;
+    public boolean exist(String id) throws SQLException, ClassNotFoundException;
+
     public String generate() throws SQLException, ClassNotFoundException;
 
-    public CustomerDTO select(String newValue) throws SQLException, ClassNotFoundException;
+    public CustomerDTO share(String newValue) throws SQLException, ClassNotFoundException;
 
     public ObservableList<String> getIds() throws SQLException, ClassNotFoundException;
 
