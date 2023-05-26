@@ -1,15 +1,15 @@
-package dao;
+package dao.custom.impl;
 
-import db.DBConnection;
+import dao.SQLUtil;
+import dao.custom.CustomerDAO;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.control.Alert;
 import model.CustomerDTO;
 
 import java.sql.*;
 import java.util.ArrayList;
 
-public class CustomerDAOImpl implements CustomerDAO{
+public class CustomerDAOImpl implements CustomerDAO {
     @Override
     public boolean save(CustomerDTO dto) throws SQLException, ClassNotFoundException {
         String sql = "INSERT INTO Customer (id,name, address) VALUES (?,?,?)";

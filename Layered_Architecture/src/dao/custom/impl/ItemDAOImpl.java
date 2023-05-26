@@ -1,16 +1,15 @@
-package dao;
+package dao.custom.impl;
 
-import db.DBConnection;
+import dao.SQLUtil;
+import dao.custom.ItemDAO;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import model.CustomerDTO;
 import model.ItemDTO;
-import view.tdm.ItemTM;
 
 import java.sql.*;
 import java.util.ArrayList;
 
-public class ItemDAOImpl implements ItemDAO{
+public class ItemDAOImpl implements ItemDAO {
     @Override
     public boolean save(ItemDTO dto) throws SQLException, ClassNotFoundException {
         String sql = "INSERT INTO Item (code, description, unitPrice, qtyOnHand) VALUES (?,?,?,?)";
