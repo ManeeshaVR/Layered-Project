@@ -9,7 +9,7 @@ import model.CustomerDTO;
 import java.sql.*;
 import java.util.ArrayList;
 
-public class CustomerDAOImpl implements CrudDAO<CustomerDTO>{
+public class CustomerDAOImpl implements CustomerDAO{
     @Override
     public boolean save(CustomerDTO dto) throws SQLException, ClassNotFoundException {
         String sql = "INSERT INTO Customer (id,name, address) VALUES (?,?,?)";

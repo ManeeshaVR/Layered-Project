@@ -10,7 +10,7 @@ import view.tdm.ItemTM;
 import java.sql.*;
 import java.util.ArrayList;
 
-public class ItemDAOImpl implements CrudDAO<ItemDTO>{
+public class ItemDAOImpl implements ItemDAO{
     @Override
     public boolean save(ItemDTO dto) throws SQLException, ClassNotFoundException {
         String sql = "INSERT INTO Item (code, description, unitPrice, qtyOnHand) VALUES (?,?,?,?)";

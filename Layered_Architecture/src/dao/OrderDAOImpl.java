@@ -1,4 +1,4 @@
-package dao;
+﻿package dao;
 
 import db.DBConnection;
 import model.ItemDTO;
@@ -9,7 +9,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 public class OrderDAOImpl implements OrderDAO{
-    CrudDAO<ItemDTO> itemDAO = new ItemDAOImpl();
+    ItemDAO itemDAO = new ItemDAOImpl();
     OrderDetailDAO orderDAO = new OrderDetailDAOImpl();
 
     public String generate() throws SQLException, ClassNotFoundException {
@@ -65,7 +65,6 @@ public class OrderDAOImpl implements OrderDAO{
             connection.commit();
             connection.setAutoCommit(true);
             return true;
-
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         } catch (ClassNotFoundException e) {

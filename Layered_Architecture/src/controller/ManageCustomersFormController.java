@@ -75,7 +75,7 @@ public class ManageCustomersFormController {
         /*Get all customers*/
         try {
             CustomerDAOImpl cdi = new CustomerDAOImpl();
-            ArrayList<CustomerDTO> customers = cdi.getAllCustomer();
+            ArrayList<CustomerDTO> customers = cdi.getAll();
             for (CustomerDTO customerDTO : customers){
                 tblCustomers.getItems().add(new CustomerTM(customerDTO.getId(), customerDTO.getName(), customerDTO.getAddress()));
             }
