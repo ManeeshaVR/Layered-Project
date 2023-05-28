@@ -1,9 +1,10 @@
-﻿package dao.custom.impl;
+package dao.custom.impl;
 
+
+import bo.ItemBo;
+import bo.custom.impl.ItemBoImpl;
 import dao.SQLUtil;
-import dao.custom.ItemDAO;
 import dao.custom.OrderDAO;
-import dao.custom.OrderDetailDAO;
 import db.DBConnection;
 import javafx.collections.ObservableList;
 import model.ItemDTO;
@@ -16,12 +17,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class OrderDAOImpl implements OrderDAO {
-    ItemDAO itemDAO = new ItemDAOImpl();
-    OrderDetailDAO orderDAO = new OrderDetailDAOImpl();
+    ItemBo itemDAO = new ItemBoImpl();
+    OrderDetailBo orderDAO = new OrderDetailBoImpl();
 
     @Override
     public boolean save(OrderDTO dto) throws SQLException, ClassNotFoundException {
-        return false;
+        String sql = "INSERT INTO `Orders` (oid, date, customerID) VALUES (?,?,?)";
+        return SQLUtil.execute(sql, dto.getOrderId(), Date.valueOf(dto.getOrderDate()), dto.getCustomerId());
     }
 
     @Override
@@ -33,6 +35,12 @@ public class OrderDAOImpl implements OrderDAO {
         String sql = "SELECT oid FROM `Orders` ORDER BY oid DESC LIMIT 1";
         ResultSet rst = SQLUtil.execute(sql);
         return rst.next() ? String.format("OID-%03d", (Integer.parseInt(rst.getString("oid").replace("OID-", "")) + 1)) : "OID-001";
+    }
+
+    @Override
+    public boolean saveOrder(String orderId, LocalDate date, String customerId) throws SQLException, ClassNotFoundException {
+        String sql = "INSERT INTO `Orders` (oid, date, customerID) VALUES (?,?,?)";
+        return SQLUtil.execute(sql, orderId, Date.valueOf(date), customerId);
     }
 
     @Override
@@ -66,13 +74,12 @@ public class OrderDAOImpl implements OrderDAO {
             connection = DBConnection.getDbConnection().getConnection();
             PreparedStatement stm = connection.prepareStatement("SELECT oid FROM `Orders` WHERE oid=?");
             stm.setString(1, orderId);
-            /*if order id already exist*/
+
             if (stm.executeQuery().next()) {
 
             }
             connection.setAutoCommit(false);
-
-            boolean isSaved = save(orderId, orderDate, customerId);
+            boolean isSaved = saveOrder(orderId, orderDate, customerId);
 
             if (!isSaved) {
                 connection.rollback();
@@ -84,18 +91,18 @@ public class OrderDAOImpl implements OrderDAO {
 
 
             for (OrderDetailDTO detail : orderDetails) {
-                boolean isSaved2 = orderDAO.save(detail, orderId);
+                boolean isSaved2 = orderDAO.saveOrderDetail(detail, orderId);
                 if (!isSaved2) {
                     connection.rollback();
                     connection.setAutoCommit(true);
                     return false;
                 }
 
-//                //Search & Update Item
-                ItemDTO item = itemDAO.search(detail.getItemCode());
+                //Search & Update Item
+                ItemDTO item = itemDAO.searchItem(detail.getItemCode());
                 item.setQtyOnHand(item.getQtyOnHand() - detail.getQty());
 
-                boolean isUpdated = itemDAO.update(item);
+                boolean isUpdated = itemDAO.updateItem(item);
 
                 if (!isUpdated) {
                     connection.rollback();
@@ -115,8 +122,4 @@ public class OrderDAOImpl implements OrderDAO {
         return false;
     }
 
-    public boolean save(String orderId, LocalDate date, String customerId) throws SQLException, ClassNotFoundException {
-        String sql = "INSERT INTO `Orders` (oid, date, customerID) VALUES (?,?,?)";
-        return SQLUtil.execute(sql, orderId, Date.valueOf(date), customerId);
-    }
 }

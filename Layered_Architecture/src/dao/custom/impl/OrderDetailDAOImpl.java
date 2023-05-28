@@ -9,10 +9,16 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class OrderDetailDAOImpl implements OrderDetailDAO {
+    @Override
     public boolean save(OrderDetailDTO detail, String orderId) throws SQLException, ClassNotFoundException {
         String sql = "INSERT INTO OrderDetails (oid, itemCode, unitPrice, qty) VALUES (?,?,?,?)";
         return SQLUtil.execute(sql, orderId, detail.getItemCode(), detail.getUnitPrice(), detail.getQty());
     }
+
+//    @Override
+//    public boolean save(OrderDetailDTO dto) throws SQLException, ClassNotFoundException {
+//        return false;
+//    }
 
     @Override
     public boolean save(OrderDetailDTO dto) throws SQLException, ClassNotFoundException {

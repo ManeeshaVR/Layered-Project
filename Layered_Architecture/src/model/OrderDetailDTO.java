@@ -54,4 +54,5 @@ public class OrderDetailDTO implements Serializable {
                 ", unitPrice=" + unitPrice +
                 '}';
     }
+
 }
