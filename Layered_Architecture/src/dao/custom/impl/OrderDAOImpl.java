@@ -3,8 +3,11 @@ package dao.custom.impl;
 
 import bo.ItemBo;
 import bo.custom.impl.ItemBoImpl;
+import dao.DAOFactory;
 import dao.SQLUtil;
+import dao.custom.ItemDAO;
 import dao.custom.OrderDAO;
+import dao.custom.OrderDetailDAO;
 import db.DBConnection;
 import javafx.collections.ObservableList;
 import model.ItemDTO;
@@ -17,8 +20,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class OrderDAOImpl implements OrderDAO {
-    ItemBo itemDAO = new ItemBoImpl();
-    OrderDetailBo orderDAO = new OrderDetailBoImpl();
+    ItemDAO itemDAO = (ItemDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.ITEM);
+    OrderDetailDAO orderDAO = (OrderDetailDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.ORDER_DETAILS);;
 
     @Override
     public boolean save(OrderDTO dto) throws SQLException, ClassNotFoundException {
@@ -91,7 +94,7 @@ public class OrderDAOImpl implements OrderDAO {
 
 
             for (OrderDetailDTO detail : orderDetails) {
-                boolean isSaved2 = orderDAO.saveOrderDetail(detail, orderId);
+                boolean isSaved2 = orderDAO.save(detail, orderId);
                 if (!isSaved2) {
                     connection.rollback();
                     connection.setAutoCommit(true);
@@ -99,10 +102,10 @@ public class OrderDAOImpl implements OrderDAO {
                 }
 
                 //Search & Update Item
-                ItemDTO item = itemDAO.searchItem(detail.getItemCode());
+                ItemDTO item = itemDAO.search(detail.getItemCode());
                 item.setQtyOnHand(item.getQtyOnHand() - detail.getQty());
 
-                boolean isUpdated = itemDAO.updateItem(item);
+                boolean isUpdated = itemDAO.update(item);
 
                 if (!isUpdated) {
                     connection.rollback();

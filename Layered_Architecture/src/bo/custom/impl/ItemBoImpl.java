@@ -1,6 +1,7 @@
 package bo.custom.impl;
 
 import bo.ItemBo;
+import dao.DAOFactory;
 import dao.custom.ItemDAO;
 import dao.custom.impl.ItemDAOImpl;
 import javafx.collections.ObservableList;
@@ -10,7 +11,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class ItemBoImpl implements ItemBo {
-    ItemDAO item = new ItemDAOImpl();
+    ItemDAO item = (ItemDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.ITEM);
 
 
     @Override
