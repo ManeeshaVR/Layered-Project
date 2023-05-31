@@ -1,8 +1,8 @@
 package controller;
 
-import bo.*;
-import bo.CustomerBo;
-import bo.ItemBo;
+import bo.custom.CustomerBo;
+import bo.custom.ItemBo;
+import bo.custom.PurchaseOrderBo;
 import bo.custom.impl.CustomerBoImpl;
 import bo.custom.impl.ItemBoImpl;
 import bo.custom.impl.PurchaseOrderBoImpl;

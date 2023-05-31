@@ -1,8 +1,6 @@
 package dao.custom.impl;
 
 
-import bo.ItemBo;
-import bo.custom.impl.ItemBoImpl;
 import dao.DAOFactory;
 import dao.SQLUtil;
 import dao.custom.ItemDAO;

@@ -1,9 +1,8 @@
 package bo.custom.impl;
 
-import bo.CustomerBo;
+import bo.custom.CustomerBo;
 import dao.DAOFactory;
 import dao.custom.CustomerDAO;
-import dao.custom.impl.CustomerDAOImpl;
 import javafx.collections.ObservableList;
 import model.CustomerDTO;
 

@@ -1,4 +1,4 @@
-package bo;
+package bo.custom;
 
 import javafx.collections.ObservableList;
 import model.CustomerDTO;
@@ -6,7 +6,7 @@ import model.CustomerDTO;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public interface CustomerBo {
+public interface CustomerBo extends SuperBO{
     public boolean saveCustomer(CustomerDTO dto) throws SQLException, ClassNotFoundException;
 
     public boolean existCustomer(String id) throws SQLException, ClassNotFoundException;
