@@ -2,6 +2,7 @@ package dao.custom.impl;
 
 import dao.SQLUtil;
 import dao.custom.CustomerDAO;
+import entity.Customer;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import model.CustomerDTO;
@@ -11,7 +12,7 @@ import java.util.ArrayList;
 
 public class CustomerDAOImpl implements CustomerDAO {
     @Override
-    public boolean save(CustomerDTO dto) throws SQLException, ClassNotFoundException {
+    public boolean save(Customer dto) throws SQLException, ClassNotFoundException {
         String sql = "INSERT INTO Customer (id,name, address) VALUES (?,?,?)";
         return SQLUtil.execute(sql, dto.getId(), dto.getName(), dto.getAddress());
     }
@@ -37,11 +38,11 @@ public class CustomerDAOImpl implements CustomerDAO {
     }
 
     @Override
-    public CustomerDTO search(String newValue) throws SQLException, ClassNotFoundException {
+    public Customer search(String newValue) throws SQLException, ClassNotFoundException {
         ResultSet resultSet = SQLUtil.execute("SELECT * FROM Customer WHERE id=?", newValue);
         resultSet.next();
-        CustomerDTO customerDTO = new CustomerDTO(newValue + "", resultSet.getString("name"), resultSet.getString("address"));
-        return customerDTO;
+        Customer customer = new Customer(newValue + "", resultSet.getString("name"), resultSet.getString("address"));
+        return customer;
     }
 
     @Override
@@ -55,17 +56,17 @@ public class CustomerDAOImpl implements CustomerDAO {
     }
 
     @Override
-    public ArrayList<CustomerDTO> getAll() throws SQLException, ClassNotFoundException {
-        ArrayList<CustomerDTO> allCustomers = new ArrayList<>();
+    public ArrayList<Customer> getAll() throws SQLException, ClassNotFoundException {
+        ArrayList<Customer> allCustomers = new ArrayList<>();
         ResultSet rs = SQLUtil.execute("SELECT * FROM Customer");
         while (rs.next()){
-            CustomerDTO customerDTO = new CustomerDTO(rs.getString(1), rs.getString(2), rs.getString(3));
-            allCustomers.add(customerDTO);
+            Customer customer = new Customer(rs.getString(1), rs.getString(2), rs.getString(3));
+            allCustomers.add(customer);
         }return allCustomers;
     }
 
     @Override
-    public boolean update(CustomerDTO dto) throws SQLException, ClassNotFoundException {
+    public boolean update(Customer dto) throws SQLException, ClassNotFoundException {
         String sql = "UPDATE Customer SET name=?, address=? WHERE id=?";
         return SQLUtil.execute(sql, dto.getName(), dto.getAddress(), dto.getId());
     }

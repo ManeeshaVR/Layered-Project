@@ -5,6 +5,9 @@ import dao.DAOFactory;
 import dao.custom.CustomerDAO;
 import dao.custom.ItemDAO;
 import dao.custom.OrderDAO;
+import entity.Customer;
+import entity.Item;
+import javafx.collections.ObservableList;
 import model.CustomerDTO;
 import model.ItemDTO;
 import model.OrderDetailDTO;
@@ -21,12 +24,14 @@ public class PurchaseOrderBoImpl implements PurchaseOrderBo {
 
     @Override
     public CustomerDTO searchCustomer(String id) throws SQLException, ClassNotFoundException {
-        return customer.search(id);
+        Customer customerEntity = customer.search(id);
+        return new CustomerDTO(customerEntity.getId(), customerEntity.getName(), customerEntity.getAddress());
     }
 
     @Override
     public ItemDTO searchItem(String code) throws SQLException, ClassNotFoundException {
-        return item.search(code);
+        Item itemEntity = item.search(code);
+        return new ItemDTO(itemEntity.getCode(), itemEntity.getDescription(), itemEntity.getUnitPrice(), itemEntity.getQtyOnHand());
     }
 
     @Override
@@ -46,12 +51,20 @@ public class PurchaseOrderBoImpl implements PurchaseOrderBo {
 
     @Override
     public ArrayList<CustomerDTO> getAllCustomers() throws SQLException, ClassNotFoundException {
-        return customer.getAll();
+        ArrayList<Customer> all = customer.getAll();
+        ArrayList<CustomerDTO> customers = new ArrayList<>();
+        for (Customer customerEn : all){
+            customers.add(new CustomerDTO(customerEn.getId(), customerEn.getName(), customerEn.getAddress()));
+        }return customers;
     }
 
     @Override
     public ArrayList<ItemDTO> getAllItems() throws SQLException, ClassNotFoundException {
-        return item.getAll();
+        ArrayList<Item> all = item.getAll();
+        ArrayList<ItemDTO> items = new ArrayList<>();
+        for (Item itemEn : all){
+            items.add(new ItemDTO(itemEn.getCode(), itemEn.getDescription(), itemEn.getUnitPrice(), itemEn.getQtyOnHand()));
+        }return items;
     }
 
     @Override
@@ -61,6 +74,17 @@ public class PurchaseOrderBoImpl implements PurchaseOrderBo {
 
     @Override
     public ItemDTO findItem(String code) throws SQLException, ClassNotFoundException {
-        return item.search(code);
+        Item search = item.search(code);
+        return new ItemDTO(search.getCode(), search.getDescription(), search.getUnitPrice(), search.getQtyOnHand());
+    }
+
+    @Override
+    public ObservableList<String> getItemCodes() throws SQLException, ClassNotFoundException {
+        return item.getIds();
+    }
+
+    @Override
+    public ObservableList<String> getCustomerIds() throws SQLException, ClassNotFoundException {
+        return customer.getIds();
     }
 }

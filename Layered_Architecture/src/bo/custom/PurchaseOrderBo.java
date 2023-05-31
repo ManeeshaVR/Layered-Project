@@ -1,5 +1,6 @@
 package bo.custom;
 
+import javafx.collections.ObservableList;
 import model.CustomerDTO;
 import model.ItemDTO;
 import model.OrderDetailDTO;
@@ -27,4 +28,8 @@ public interface PurchaseOrderBo extends SuperBO{
     public boolean purchaseOrder(String orderId, LocalDate orderDate, String customerId, List<OrderDetailDTO> orderDetails);
 
     public ItemDTO findItem(String code) throws SQLException, ClassNotFoundException;
+
+    public ObservableList<String> getItemCodes() throws SQLException, ClassNotFoundException;
+
+    public ObservableList<String> getCustomerIds() throws SQLException, ClassNotFoundException;
 }

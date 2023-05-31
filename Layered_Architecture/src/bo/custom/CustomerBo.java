@@ -1,5 +1,6 @@
 package bo.custom;
 
+import entity.Customer;
 import javafx.collections.ObservableList;
 import model.CustomerDTO;
 

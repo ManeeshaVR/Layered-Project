@@ -2,6 +2,7 @@ package dao.custom.impl;
 
 import dao.SQLUtil;
 import dao.custom.OrderDetailDAO;
+import entity.OrderDetail;
 import javafx.collections.ObservableList;
 import model.OrderDetailDTO;
 
@@ -21,7 +22,7 @@ public class OrderDetailDAOImpl implements OrderDetailDAO {
 //    }
 
     @Override
-    public boolean save(OrderDetailDTO dto) throws SQLException, ClassNotFoundException {
+    public boolean save(OrderDetail dto) throws SQLException, ClassNotFoundException {
         return false;
     }
 
@@ -36,7 +37,7 @@ public class OrderDetailDAOImpl implements OrderDetailDAO {
     }
 
     @Override
-    public OrderDetailDTO search(String newValue) throws SQLException, ClassNotFoundException {
+    public OrderDetail search(String newValue) throws SQLException, ClassNotFoundException {
         return null;
     }
 
@@ -46,12 +47,12 @@ public class OrderDetailDAOImpl implements OrderDetailDAO {
     }
 
     @Override
-    public ArrayList<OrderDetailDTO> getAll() throws SQLException, ClassNotFoundException {
+    public ArrayList<OrderDetail> getAll() throws SQLException, ClassNotFoundException {
         return null;
     }
 
     @Override
-    public boolean update(OrderDetailDTO dto) throws SQLException, ClassNotFoundException {
+    public boolean update(OrderDetail dto) throws SQLException, ClassNotFoundException {
         return false;
     }
 

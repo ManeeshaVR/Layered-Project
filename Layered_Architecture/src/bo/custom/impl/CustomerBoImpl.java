@@ -3,6 +3,7 @@ package bo.custom.impl;
 import bo.custom.CustomerBo;
 import dao.DAOFactory;
 import dao.custom.CustomerDAO;
+import entity.Customer;
 import javafx.collections.ObservableList;
 import model.CustomerDTO;
 
@@ -14,7 +15,7 @@ public class CustomerBoImpl implements CustomerBo {
 
     @Override
     public boolean saveCustomer(CustomerDTO dto) throws SQLException, ClassNotFoundException {
-        return customer.save(dto);
+        return customer.save(new Customer(dto.getId(), dto.getName(), dto.getAddress()));
     }
 
     @Override
@@ -29,7 +30,8 @@ public class CustomerBoImpl implements CustomerBo {
 
     @Override
     public CustomerDTO searchCustomer(String newValue) throws SQLException, ClassNotFoundException {
-        return customer.search(newValue);
+        Customer search = customer.search(newValue);
+        return new CustomerDTO(search.getId(), search.getName(), search.getAddress());
     }
 
     @Override
@@ -38,13 +40,16 @@ public class CustomerBoImpl implements CustomerBo {
     }
 
     public ArrayList<CustomerDTO> getAllCustomers() throws SQLException, ClassNotFoundException {
-        ArrayList<CustomerDTO> customers = customer.getAll();
-        return customers;
+        ArrayList<Customer> all = customer.getAll();
+        ArrayList<CustomerDTO> customers = new ArrayList<>();
+        for (Customer customerEn : all){
+            customers.add(new CustomerDTO(customerEn.getId(), customerEn.getName(), customerEn.getAddress()));
+        }return customers;
     }
 
     @Override
     public boolean updateCustomer(CustomerDTO dto) throws SQLException, ClassNotFoundException {
-        return customer.update(dto);
+        return customer.update(new Customer(dto.getId(), dto.getName(), dto.getAddress()));
     }
 
     @Override

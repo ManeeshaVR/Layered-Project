@@ -2,6 +2,7 @@ package dao.custom;
 
 import dao.CrudDAO;
 import db.DBConnection;
+import entity.Order;
 import model.OrderDTO;
 import model.OrderDetailDTO;
 
@@ -12,7 +13,7 @@ import java.sql.Statement;
 import java.time.LocalDate;
 import java.util.List;
 
-public interface OrderDAO extends CrudDAO<OrderDTO> {
+public interface OrderDAO extends CrudDAO<Order> {
     public String generate() throws SQLException, ClassNotFoundException;
     public boolean saveOrder(String orderId, LocalDate date, String customerId) throws SQLException, ClassNotFoundException;
 

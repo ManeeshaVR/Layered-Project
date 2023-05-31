@@ -7,6 +7,8 @@ import dao.custom.ItemDAO;
 import dao.custom.OrderDAO;
 import dao.custom.OrderDetailDAO;
 import db.DBConnection;
+import entity.Item;
+import entity.Order;
 import javafx.collections.ObservableList;
 import model.ItemDTO;
 import model.OrderDTO;
@@ -22,7 +24,7 @@ public class OrderDAOImpl implements OrderDAO {
     OrderDetailDAO orderDAO = (OrderDetailDAO) DAOFactory.getDaoFactory().getDAO(DAOFactory.DAOTypes.ORDER_DETAILS);;
 
     @Override
-    public boolean save(OrderDTO dto) throws SQLException, ClassNotFoundException {
+    public boolean save(Order dto) throws SQLException, ClassNotFoundException {
         String sql = "INSERT INTO `Orders` (oid, date, customerID) VALUES (?,?,?)";
         return SQLUtil.execute(sql, dto.getOrderId(), Date.valueOf(dto.getOrderDate()), dto.getCustomerId());
     }
@@ -45,7 +47,7 @@ public class OrderDAOImpl implements OrderDAO {
     }
 
     @Override
-    public OrderDTO search(String newValue) throws SQLException, ClassNotFoundException {
+    public Order search(String newValue) throws SQLException, ClassNotFoundException {
         return null;
     }
 
@@ -55,12 +57,12 @@ public class OrderDAOImpl implements OrderDAO {
     }
 
     @Override
-    public ArrayList<OrderDTO> getAll() throws SQLException, ClassNotFoundException {
+    public ArrayList<Order> getAll() throws SQLException, ClassNotFoundException {
         return null;
     }
 
     @Override
-    public boolean update(OrderDTO dto) throws SQLException, ClassNotFoundException {
+    public boolean update(Order dto) throws SQLException, ClassNotFoundException {
         return false;
     }
 
@@ -100,7 +102,7 @@ public class OrderDAOImpl implements OrderDAO {
                 }
 
                 //Search & Update Item
-                ItemDTO item = itemDAO.search(detail.getItemCode());
+                Item item = itemDAO.search(detail.getItemCode());
                 item.setQtyOnHand(item.getQtyOnHand() - detail.getQty());
 
                 boolean isUpdated = itemDAO.update(item);
